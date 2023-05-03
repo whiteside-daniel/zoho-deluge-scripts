@@ -1,24 +1,41 @@
-// Specify the source and destination modules
-sourceModule = "<Source_Module_Name>";
-destinationModule = "<Destination_Module_Name>";
+//get an Account object/objects - this will be the original source module 
+//of the attachments which need to be transferred
+accountResponse = zoho.crm.getRecordById("Accounts",<Account_ID>);
+customList = list();
+customList.add(accountResponse);
 
-// Specify the IDs of the source records to copy attachments from
-recordIds = list();
-
-//add something to the list of record IDs
-recordIds.add("<Record_Id>");
-recordIds.add("<Record_Id>");
-
-// Loop through each record ID and copy the attachments
-for each recordId in recordIds
+//for each Account, iterate this loop
+for each  record in customList
 {
-    // Get the list of attachments for the source record
-    attachments = zoho.crm.getAttachments(sourceModule, recordId);
-
-    // Loop through each attachment and copy it to the destination record
-    for each attachment in attachments
-    {
-        // Copy the attachment to the destination record
-        zoho.crm.copyFile(sourceModule, recordId, attachment, destinationModule, recordId);
-    }
+    //get the Account ID
+	id = record.get("id");
+    //find related attachments with this Account
+	relatedAttachments = zoho.crm.getRelatedRecords("Attachments","Accounts",id.toLong());
+    //get the first Contact assocaited with this Account
+	relatedContact = zoho.crm.getRelatedRecords("Contacts","Accounts",id.toLong(),1,1);
+    //get the record ID and name of this Contact
+	contactId = relatedContact.get(0).getJson("id");
+	contactName = relatedContact.get(0).getJson("Stud_Name");
+    //for each attachment associated with the current Account, iterate this loop
+	for each  rec in relatedAttachments
+	{
+        //get the file name and record ID of the attachment
+		fileName = rec.get("File_Name");
+		fileRecordId = rec.get("id");
+        //generate a formatted URL for the api call
+		formattedUrl = "https://zohoapis.com/crm/v3/accounts/" + id + "/attachments/" + fileRecordId;
+		invokeParams = Map();
+		invokeParams.put("fields_attachment_id",fileRecordId);
+        //execute API call to download the attachment
+		downloadResponse = invokeurl
+		[
+			url :formattedUrl
+			type :GET
+			parameters:invokeParams
+			connection:"allmodules"
+		];
+        //upload this attachment back to the target module, in this case "Contacts"
+		uploadResponse = zoho.crm.attachFile("Contacts",contactId,downloadResponse, "allmodules");
+	}
 }
+return "";
