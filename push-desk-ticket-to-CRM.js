@@ -7,36 +7,46 @@ formattedURL = "https://desk.zoho.com/api/v1/tickets/" + ticketId.toString();
 //info formattedURL;
 //info for Deluge code is the same as console.log, for debugging 
 
-//API call to Zoho Desk to get the ticket information, returned in a JSON object
+//Step 1 - API call to Zoho Desk to get the ticket information, returned in a JSON object
 ticketResponse = invokeurl
 [
 	url :formattedURL
 	type :GET
 	connection: <Your_Oauth_Connection_Name>
 ];
+//info ticketResponse;
 
-//get some critical information from the ticket and format it in a new JSON object
-//for the next API call to Zoho CRM
+// Step 2 - get some critical information from the ticket and format it in a new JSON object
+// for the next API call to Zoho CRM
 CrmFieldMap = Map();
 CrmFieldMap.put("Name",ticketResponse.get("subject"));
 CrmFieldMap.put("Ticket_Due_Date",toDateTime(ticketResponse.get("dueDate"),"yyyy-MM-dd HH:mm:ss"));
 CrmFieldMap.put("Ticket_Description",ticketResponse.get("description"));
 emptyMap = Map();
 
-//lines 18-23 create a JSON object like this
-// {
-//    "Name" : "New Ticket",
-//    "Ticket_Due_Date" : "2023-05-04 16:30:00",
-//    "Ticket_Description" : "this ticket was created as a test ticket, see Daniel for more information"
-// }
-//
-// For this API call, the key is the name of the field in the CRM modul where you'll push the data
-// and the value is pulled from the Desk ticket object we requested in line 10-15
-// like this:   {
-//                  "CRM_Field_Name" : "Desk Ticket Value"
-//              }
+//info CrmFieldMap;
 
-//Create a new record in Zoho CRM inside the <Custom_Module>
+/* 
+
+lines 18-23 create a JSON object like this
+{
+	"Name" : "New Ticket",
+	"Ticket_Due_Date" : "2023-05-04 16:30:00",
+	"Ticket_Description" : "this ticket was created as a test ticket, see Daniel for more information"
+}
+
+
+For this API call, the key is the name of the field in the CRM/Destination module where you'll push the data
+and the value is pulled from the Desk Ticket/Source object (we requested the source object in line 10-15) 
+in a key-pair structure like this:
+{
+	"CRM_Destination_Field_Name" : "Desk Ticket/Source Value"
+}
+
+*/
+
+
+//Step 3 - Create a new record in Zoho CRM inside the <Custom_Module> you created with appropriate field names
 //<Your_Custom_Module_Name> is the name of your new custom module where the ticket will go
 
-createCrmRecordResponse = zoho.crm.createRecord(<Your_Custom_Module_Name>,CrmFieldMap,emptyMap,"allmodules");
+createCrmRecordResponse = zoho.crm.createRecord(<Your_Custom_Module_Name>,CrmFieldMap,emptyMap,<Your_Oauth_Connection_Name>);
