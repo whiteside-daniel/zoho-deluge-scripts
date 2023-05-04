@@ -12,7 +12,7 @@ ticketResponse = invokeurl
 [
 	url :formattedURL
 	type :GET
-	connection:"allmodules"
+	connection: <Oauth_Connection_Name>
 ];
 
 //get some critical information from the ticket and format it in a new JSON object
