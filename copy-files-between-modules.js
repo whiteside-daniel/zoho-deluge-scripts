@@ -32,7 +32,7 @@ for each  record in customList
 			url :formattedUrl
 			type :GET
 			parameters:invokeParams
-			connection:"allmodules"
+			connection: <Oauth_Connection_Name>
 		];
         //upload this attachment back to the target module, in this case "Contacts"
 		uploadResponse = zoho.crm.attachFile("Contacts",contactId,downloadResponse, "allmodules");
