@@ -12,7 +12,7 @@ ticketResponse = invokeurl
 [
 	url :formattedURL
 	type :GET
-	connection: <Oauth_Connection_Name>
+	connection: <Your_Oauth_Connection_Name>
 ];
 
 //get some critical information from the ticket and format it in a new JSON object
@@ -37,6 +37,6 @@ emptyMap = Map();
 //              }
 
 //Create a new record in Zoho CRM inside the <Custom_Module>
-//<Custom_Module_Name> is the name of your new custom module where the ticket will go
+//<Your_Custom_Module_Name> is the name of your new custom module where the ticket will go
 
-createCrmRecordResponse = zoho.crm.createRecord(<Custom_Module_Name>,CrmFieldMap,emptyMap,"allmodules");
+createCrmRecordResponse = zoho.crm.createRecord(<Your_Custom_Module_Name>,CrmFieldMap,emptyMap,"allmodules");
