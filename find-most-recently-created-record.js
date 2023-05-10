@@ -29,4 +29,6 @@ record = mostRecentRecord.get(0);
 
 //you can go on to do anything with this record, like get values or update the record
 recordId = record.getJson("id");
-updateResponseObject = zoho.crm.updateRecord("<Module_Name>", "<Update_Values_Key_Pairs>", "<Oauth_Connection_Name>");
+updateValueKeyPairs = map();
+updateValueKeyPairs.put("<Field_Name>", "<Field_Value>");    //example updateValueKeyPairs.put("Account Status", "Active")
+updateResponseObject = zoho.crm.updateRecord("<Module_Name>", updateValueKeyPairs, "<Oauth_Connection_Name>");
