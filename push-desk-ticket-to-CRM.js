@@ -12,12 +12,13 @@ ticketResponse = invokeurl
 [
 	url :formattedURL
 	type :GET
-	connection: <Your_Oauth_Connection_Name>
+	connection: "<Your_Oauth_Connection_Name>"
 ];
 //info ticketResponse;
 
 // Step 2 - get some critical information from the ticket and format it in a new JSON object
-// for the next API call to Zoho CRM
+// you can add any fields that you like, but they have to exist in the desk ticket AND the 
+// new custom module in CRM 
 CrmFieldMap = Map();
 CrmFieldMap.put("Name",ticketResponse.get("subject"));
 CrmFieldMap.put("Ticket_Due_Date",toDateTime(ticketResponse.get("dueDate"),"yyyy-MM-dd HH:mm:ss"));
@@ -49,4 +50,4 @@ in a key-pair structure like this:
 //Step 3 - Create a new record in Zoho CRM inside the <Custom_Module> you created with appropriate field names
 //<Your_Custom_Module_Name> is the name of your new custom module where the ticket will go
 
-createCrmRecordResponse = zoho.crm.createRecord(<Your_Custom_Module_Name>,CrmFieldMap,emptyMap,<Your_Oauth_Connection_Name>);
+createCrmRecordResponse = zoho.crm.createRecord("<Your_Custom_Module_Name>",CrmFieldMap,emptyMap,"<Your_Oauth_Connection_Name>");
