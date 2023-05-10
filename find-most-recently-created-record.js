@@ -12,12 +12,12 @@ query_map = Map();
 query_map.put("sort_order", "desc"); //sort order can be asc or desc
 
 //define which column/field name you'd like to sort by
-query_map.put("sort_by", <Field_Name>); 
+query_map.put("sort_by", "<Field_Name>"); 
 
 //STEP 2 - search the module for records using the criteria you just set
               
 //use deluge to find the most recent record
-mostRecentRecord = zoho.crm.getRecords(<Module_Name>, 1, 1, query_map, <Oauth_Connection_Name>);
+mostRecentRecord = zoho.crm.getRecords("<Module_Name>", 1, 1, query_map, "<Oauth_Connection_Name>");
 
 //mostRecent is returned as as "list" even though there will only be one item in the list
 //get the first item in the list
@@ -29,4 +29,4 @@ record = mostRecentRecord.get(0);
 
 //you can go on to do anything with this record, like get values or update the record
 recordId = record.getJson("id");
-updateResponseObject = zoho.crm.updateRecord(<Module_Name>, <Update_Values_Key_Pairs>, <Oauth_Connection_Name>);
+updateResponseObject = zoho.crm.updateRecord("<Module_Name>", "<Update_Values_Key_Pairs>", "<Oauth_Connection_Name>");
