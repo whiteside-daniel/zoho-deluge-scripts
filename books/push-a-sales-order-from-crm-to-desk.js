@@ -3,20 +3,7 @@
 //Reason - The default integration between Books and CRM only allows the sync of a few modules, of which Sales Orders 
 //are not included. This script will augment the ordinary integration and allow pushing a CRM Sales Order to a Books Sales Order.
 
-//Prerequisite 1 - Zoho CRM/Books Sync
-//You must go to Zoho Books > Settings > Integrations and activate an integration between books and Zoho CRM. You must have 
-//contacts synced between Zoho CRM (Accounts) > Zoho Books (Contacts) AND you must have products/line items synced between 
-//Zoho CRM (Products) > Zoho Books (Items).
-
-//Prerequisite 2 - Zoho Oauth
-//You must go to Zoho Books > Settings > Developer Space > Connections and create/activate a Zoho Oauth connection with the 
-//following permissions: 
-//   ZohoBooks.salesorders.CREATE 
-//   ZohoBooks.contacts.Read
-//   ZohoBooks.settings.Read
-//Remember the name of your connection, it will be insert inside double quotes wherever you see <Your_Oauth_Connection>
-
-//Prerequisite 3 - CRM Accounts Module Setup
+//Prerequisite 1 - CRM Accounts Module Setup
 //You need to go into Zoho CRM > Settings > Modules and Fields > Accounts and add a "Checkbox" field named 
 // "Is_a_Parent_Account" - this field will let CRM know if this particular account is a parent account. You also need to add
 //a "Lookup" field named "Parent Account." For accounts which are NOT parent accounts (aka child account), you will indicate
@@ -27,6 +14,26 @@
 //       - Parent Account                  (if account is a parent, bill normally)
 //               |_ Child Account          (if account is a child account, bill to the parent account in Zoho Books)
 //
+
+//Prerequisite 2 - Create custom CRM Accounts View
+//You need to go to the Accounts module in Zoho CRM, and in the top left click the dropdown for Accounts views. There are some
+//default views like "All Accounts" and "New Accounts This Week." You need to create a New Custom View called "Parent Accounts"
+//with a filter criteria of "Is a Parent Account" IS Selected and then SAVE that view.
+
+//Prerequisite 3 - Zoho CRM/Books Sync
+//You must go to Zoho Books > Settings > Integrations and activate an integration between books and Zoho CRM. You must have 
+//contacts synced between Zoho CRM (Accounts) > Zoho Books (Contacts). Make sure at Step 4, "Select the View to be Synced"
+//you have selected "Parent Accounts." Then set up the sync for products/line items between Zoho CRM (Products) > Zoho Books (Items).
+
+//Prerequisite 4 - Zoho Oauth
+//You must go to Zoho Books > Settings > Developer Space > Connections and create/activate a Zoho Oauth connection with the 
+//following permissions: 
+//   ZohoBooks.salesorders.CREATE 
+//   ZohoBooks.contacts.Read
+//   ZohoBooks.settings.Read
+//Remember the name of your connection, it will be insert inside double quotes wherever you see <Your_Oauth_Connection>
+
+
 
 //to begin this script - you MUST pass in a variable called salesOrderId - this ID should be
 //the record ID for the CRM Sales Order you wish to push to Zoho Books.
