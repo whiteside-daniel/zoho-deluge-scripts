@@ -9,10 +9,10 @@
 //a "Lookup" field named "Parent Account." For accounts which are NOT parent accounts (aka child account), you will indicate
 //in the Account record which Account is the parent Account.
 //
-//                        --Billing Accounts in Zoho Books--
+//                        --Accounts Configuration in Zoho CRM--
 //
 //       - Parent Account                  (if account is a parent, bill normally)
-//               |_ Child Account          (if account is a child account, bill to the parent account in Zoho Books)
+//               |_ Child Account          (if account is a child account, send the Sales Order to parent account in Zoho Books)
 //
 
 //Prerequisite 2 - Create custom CRM Accounts View
