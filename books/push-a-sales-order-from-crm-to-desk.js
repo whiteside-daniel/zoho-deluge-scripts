@@ -34,6 +34,7 @@
 //establish your Zoho Books orgId
 //go to Zoho Books > Settings > Organization Profile
 booksOrgId = "<Books_Org_ID>";
+oauthConnectionName = "<Your_Oauth_Connection_Name>";
 try 
 {
 	//get the CRM version of the sales order - a JSON object is returned
@@ -68,7 +69,7 @@ try
 		url :"https://www.zohoapis.com/books/v3/contacts?organization_id=" + booksOrgId
 		type :GET
 		parameters:headers_data
-		connection:"zohobooksconnect"
+		connection: oauthConnectionName
 	];
 	//get the Zoho Books Contact ID from the response object
 	booksContactId = contactResponse.get("contacts").get(0).get("contact_id");
@@ -92,7 +93,7 @@ try
 			url :"https://www.zohoapis.com/books/v3/items?organization_id=" + booksOrgId
 			type :GET
 			parameters:productSearchParameters
-			connection: "<Your_Oauth_Connection>"
+			connection: oauthConnectionName
 		];
     //assemble the line item list
 		lineItemMap = map();
@@ -115,7 +116,7 @@ try
 		type: POST
 		content-type: "application/json"
 		parameters: salesOrderCreateParameters.toString()
-		connection: "<Your_Oauth_Connection>"
+		connection: oauthConnectionName
 	];
 }
 catch (e)
