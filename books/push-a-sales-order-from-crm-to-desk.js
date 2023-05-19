@@ -3,8 +3,9 @@
 //Reason - The default integration between Books and CRM only allows the sync of a few modules, of which Sales Orders 
 //are not included. This script will augment the ordinary integration and allow pushing a CRM Sales Order to a Books Sales Order.
 
-//Limitations - 1) Each "Parent Account" must have a unique name. 2) You cannot update a Books Sales Order once it has been
-//pushed from CRM to Books. This is a one-way push of information from Zoho CRM (Sales Orders) > Zoho Books (Sales Orders).
+//Limitations - 1) Each "Parent Account" must have a unique name. 2) Once a SO has been pushed from CRM to Books, there
+//is no way to modify the Books SO from CRM. This is a one-way push of information from Zoho CRM (Sales Orders) to 
+//Zoho Books (Sales Orders).
 
 //Prerequisite 1 - CRM Accounts Module Setup
 //You need to go into Zoho CRM > Settings > Modules and Fields > Accounts and add a "Checkbox" field named 
