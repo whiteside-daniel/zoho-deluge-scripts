@@ -1,34 +1,124 @@
-//This script will use Deluge to find the most recently created record
-//variable names look <Like_This>
-//you'll need to insert your own real values for these variables
+//This script will take a Sales Order created in Zoho CRM, determine the "parent" account to which a Sales Order should 
+//be billed to, and make a Sales Order in Zoho Books with the "parent" account as the primary contact. 
+//Reason - The default integration between Books and CRM only allows the sync of a few modules, of which Sales Orders 
+//are not included. This script will augment the ordinary integration and allow pushing a CRM Sales Order to a Books Sales Order.
 
+//Prerequisite 1 - Zoho CRM/Books Sync
+//You must go to Zoho Books > Settings > Integrations and activate an integration between books and Zoho CRM. You must have 
+//contacts synced between Zoho CRM (Accounts) > Zoho Books (Contacts) AND you must have products/line items synced between 
+//Zoho CRM (Products) > Zoho Books (Items).
 
-//STEP 1 - setup query parameters
+//Prerequisite 2 - Zoho Oauth
+//You must go to Zoho Books > Settings > Developer Space > Connections and create/activate a Zoho Oauth connection with the 
+//following permissions: 
+//   ZohoBooks.salesorders.CREATE 
+//   ZohoBooks.contacts.Read
+//   ZohoBooks.settings.Read
+//Remember the name of your connection, it will be insert inside double quotes wherever you see <Your_Oauth_Connection>
 
-//create a JSON map
-query_map = Map(); 
+//Prerequisite 3 - CRM Accounts Module Setup
+//You need to go into Zoho CRM > Settings > Modules and Fields > Accounts and add a "Checkbox" field named 
+// "Is_a_Parent_Account" - this field will let CRM know if this particular account is a parent account. You also need to add
+//a "Lookup" field named "Parent Account." For accounts which are NOT parent accounts (aka child account), you will indicate
+//in the Account record which Account is the parent Account.
+//
+//                        --Billing Accounts in Zoho Books--
+//
+//       - Parent Account                  (if account is a parent, bill normally)
+//               |_ Child Account          (if account is a child account, bill to the parent account in Zoho Books)
+//
 
-//define the sort criteria
-query_map.put("sort_order", "desc"); //sort order can be asc or desc
+//to begin this script - you MUST pass in a variable called salesOrderId - this ID should be
+//the record ID for the CRM Sales Order you wish to push to Zoho Books.
 
-//define which column/field name you'd like to sort by
-query_map.put("sort_by", "<Field_Name>"); 
-
-//STEP 2 - search the module for records using the criteria you just set
-              
-//use deluge to find the most recent record
-mostRecentRecord = zoho.crm.getRecords("<Module_Name>", 1, 1, query_map, "<Oauth_Connection_Name>");
-
-//mostRecent is returned as as "list" even though there will only be one item in the list
-//get the first item in the list
-record = mostRecentRecord.get(0);
-//record is now set as a JSON-type record object - formatted as a String
-
-
-//STEP 3 - use the record you found to get data, modify record, etc
-
-//you can go on to do anything with this record, like get values or update the record
-recordId = record.getJson("id");
-updateValueKeyPairs = map();
-updateValueKeyPairs.put("<Field_Name>", "<Field_Value>");    //example updateValueKeyPairs.put("Account Status", "Active")
-updateResponseObject = zoho.crm.updateRecord("<Module_Name>", updateValueKeyPairs, "<Oauth_Connection_Name>");
+//establish your Zoho Books orgId
+//go to Zoho Books > Settings > Organization Profile
+booksOrgId = "<Books_Org_ID>";
+try 
+{
+	//get the CRM version of the sales order - a JSON object is returned
+	crmSalesOrderResponse = zoho.crm.getRecordById("Sales_Orders",salesOrderId);
+	//get the associated Account to that Sales Order
+	accountInfo = crmSalesOrderResponse.get("Account_Name");
+	crmAccountName = accountInfo.getJson("name");
+	crmAccountId = accountInfo.getJson("id");
+	//try to find parent account
+	salesOrderAccountResponse = zoho.crm.getRecordById("Accounts",crmAccountId);
+	isAccountParent = salesOrderAccountResponse.get("Is_a_Parent_Account");
+	//If this account is the parent account, pass that Account ID forward
+	if(isAccountParent)
+	{
+		parentAccountName = crmAccountName;
+	}
+	//if this account is NOT the parent account, find the parent account
+	//and then pass that Account ID forward
+	else
+	{
+		parentAccountId = salesOrderAccountResponse.get("Parent_Account").getJson("id");
+		parentAccountName = zoho.crm.getRecordById("Accounts",parentAccountId).get("Account_Name");
+	}
+	//find the Zoho Books Contacts records with the same name as the CRM Account
+	//Account name will be an exact match
+	//*****problems if there are two accounts with the exact same name*****
+	headers_data = Map();
+	headers_data.put("contact_name",parentAccountName);
+	//API search Zoho Books
+	contactResponse = invokeurl
+	[
+		url :"https://www.zohoapis.com/books/v3/contacts?organization_id=" + booksOrgId
+		type :GET
+		parameters:headers_data
+		connection:"zohobooksconnect"
+	];
+	//get the Zoho Books Contact ID from the response object
+	booksContactId = contactResponse.get("contacts").get(0).get("contact_id");
+	//gran all relevant CRM Sales Order Fields
+	booksCustomerId = booksContactId;
+	booksSalesOrderDate = today.toString("yyyy-MM-dd");
+	//handle Line Items from the Sales Order
+	booksLineItems = list();
+  //grab the list of products included in the Sales Order
+	crmLineItems = crmSalesOrderResponse.get("Product_Details");
+  //for each line item...
+	for each  product in crmLineItems
+	{
+    //get the Product Name
+		crmProductName = product.getJson("product").getJson("name");
+		productSearchParameters = Map();
+		productSearchParameters.put("name",crmProductName);
+    //Search Books for a corresponding Item (Same as as Product in CRM)
+		booksProductResponse = invokeurl
+		[
+			url :"https://www.zohoapis.com/books/v3/items?organization_id=" + booksOrgId
+			type :GET
+			parameters:productSearchParameters
+			connection: "<Your_Oauth_Connection>"
+		];
+    //assemble the line item list
+		lineItemMap = map();
+		lineItemMap.put("item_id", booksProductResponse.get("items").get(0).getJson("item_id"));
+		lineItemMap.put("rate", booksProductResponse.get("items").get(0).get("rate"));
+		lineItemMap.put("name", booksProductResponse.get("items").get(0).get("name"));
+		lineItemMap.put("quantity", product.get("quantity"));
+		lineItemMap.put("description", booksProductResponse.get("items").get(0).get("description"));
+		booksLineItems.add(lineItemMap);
+	}
+	//get ready to create the sales order
+	salesOrderCreateParameters = map();
+  //assemble API call parameters
+	salesOrderCreateParameters.put("customer_id", booksCustomerId);
+	salesOrderCreateParameters.put("date", booksSalesOrderDate);
+	salesOrderCreateParameters.put("line_items", booksLineItems);
+	//create a new sales order in Books with API request
+	createNewSalesOrderResponse = invokeurl[
+		url: "https://www.zohoapis.com/books/v3/salesorders?organization_id="+booksOrgId
+		type: POST
+		content-type: "application/json"
+		parameters: salesOrderCreateParameters.toString()
+		connection: "<Your_Oauth_Connection>"
+	];
+}
+catch (e)
+{
+	info "error: " + e;
+}
