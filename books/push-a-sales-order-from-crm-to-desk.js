@@ -106,10 +106,10 @@ try
     //assemble the line item list
 		lineItemMap = map();
 		lineItemMap.put("item_id", booksProductResponse.get("items").get(0).getJson("item_id"));
-		lineItemMap.put("rate", booksProductResponse.get("items").get(0).get("rate"));
+		lineItemMap.put("rate", product.get("rate"));
 		lineItemMap.put("name", booksProductResponse.get("items").get(0).get("name"));
 		lineItemMap.put("quantity", product.get("quantity"));
-		lineItemMap.put("description", booksProductResponse.get("items").get(0).get("description"));
+		lineItemMap.put("description", product.get("product_description));
 		booksLineItems.add(lineItemMap);
 	}
 	//get ready to create the sales order
