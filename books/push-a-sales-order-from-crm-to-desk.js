@@ -60,20 +60,17 @@ try
 	//If this account is the parent account, pass that Account ID forward
 	if(isAccountParent)
 	{
-		parentAccountName = crmAccountName;
+		parentAccountId = crmAccountId;
 	}
 	//if this account is NOT the parent account, find the parent account
 	//and then pass that Account ID forward
 	else
 	{
 		parentAccountId = salesOrderAccountResponse.get("Parent_Account").getJson("id");
-		parentAccountName = zoho.crm.getRecordById("Accounts",parentAccountId).get("Account_Name");
 	}
-	//find the Zoho Books Contacts records with the same name as the CRM Account
-	//Account name will be an exact match
-	//*****problems if there are two accounts with the exact same name*****
+	//find the Zoho Books Contacts record that is associated with the Zoho CRM Account
 	headers_data = Map();
-	headers_data.put("contact_name",parentAccountName);
+	headers_data.put("zcrm_account_id",parentAccountId);
 	//API search Zoho Books
 	contactResponse = invokeurl
 	[
