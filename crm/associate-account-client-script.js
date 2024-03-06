@@ -12,7 +12,7 @@ contactName = contactFieldValue.name;
 // //WAIT! hang on there buddy
 // //FIRST YOU NEED AN ACCESS TOKEN
 const resp = ZDK.HTTP.request({
- url: 'https://accounts.zoho.com/oauth/v2/token?refresh_token=1000.3e107cd202a59443f94b86a2b17e43a8.c5fa2f4460e89b90465aba12881a535a&client_id=1000.WG6S32VVBN3V6X6EK8VWMW1XQVA4IG&client_secret=ffcc8c5116be36b248f73531e415e022a11b3a6296&grant_type=refresh_token',
+ url: 'https://accounts.zoho.com/oauth/v2/token?refresh_token=****&client_id=****&grant_type=refresh_token',
  method: 'POST',
  headers: {
    'Content-Type': 'application/json'
