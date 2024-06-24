@@ -3,6 +3,8 @@ linux and MacOS have a feature called crontab which is a job scheduler. You can 
 
 In this example, you'll see  how to trigger a CRM function automatically every 5 minutes.
 
+This should work out of the box on any Linux or MacOS machine. I originally deployed this on a DigitalOcean Ubuntu virtual machine. The only setup was checking that cron was active, but I don't even think that was necessary. Of course if you're using a work computer or operating behind a firewall, you may need to make additional configurations.
+
 ## Step 1 - Make a Custom Deluge Function callable via Rest API
 Write your custom function in Zoho CRM. Then... go to Setup > Functions and find the custom function you want to schedule. Select 'Rest API' and turn on the slider/selector for API Key functionality. Copy the URL that's given to your clipboard.
 
