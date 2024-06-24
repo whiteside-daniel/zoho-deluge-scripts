@@ -9,7 +9,7 @@ This should work out of the box on any Linux or MacOS machine. I originally depl
 Write your custom function in Zoho CRM. Then... go to Setup > Functions and find the custom function you want to schedule. Select 'Rest API' and turn on the slider/selector for API Key functionality. Copy the URL that's given to your clipboard.
 
 ## Step 2 - Paste URL into the bash script
-Open the trigger_deluge_function.sh bash script and paste in the unique URL copied from step one into the variable for CF_URL (in line 2, trigger_deluge_function.sh).
+Open the trigger_deluge_function.sh bash script and paste in the unique URL copied from step one into the variable for CF_URL (in line 2, trigger_deluge_function.sh). Save this file anywhere on the same machine that you want to run the schedule. Make sure you remember the exact path where you saved the file. 
 
 ## Step 3 - Edit your crontab file
 Open a Linux or Mac Terminal Window and type `crontab -e`. This will open the cron file which schedules jobs automatically. You will need to edit this file (using vim or nano, depending on your operating system's default terminal text editor). 
