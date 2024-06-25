@@ -8,6 +8,8 @@
 //You will need to obtain your orgId in Zoho Desk and put it here
 orgId = "<Your_Org_ID>";
 //put the name of your Zoho Oauth Connection here
+// you need an Oauth connection from SalesIQ to Zoho Desk
+//Scope: ZohoDesk.Tickets.Create
 oAuthConnection = "<Your_Oauth_Connection>"
 
 //get the account name to add to the ticket subject
