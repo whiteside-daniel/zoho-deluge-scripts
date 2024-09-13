@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Profile Information</title>
+<link rel="stylesheet" href="main.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" >
+<script src="https://static.zohocdn.com/catalyst/sdk/js/4.0.0/catalystWebSDK.js"> </script>
+<script src="/__catalyst/sdk/init.js"></script>
+<style>
+</style>
+</head>
+<body onload="showProfile()">
+	<div class="card">
+			<span class="title" id="fname"></span>
+			<span class="title" id="lname"></span>
+			<span class="title"id="mailid" ></span>
+			<span class="title"id="tzone" ></span>
+			<span class="title"id="ctime" ></span>
+	</div>
+	<div class="navbar">
+		<div class="logout">
+			<button onclick="logout()">Logout</button>
+		</div>
+		<div class="">
+			<span id="org-id"></span>
+		</div>
+		<div class="catalyst-logo image-container">
+			<img src="public/catalyst-logo.png" alt="catalyst logo" height="40px" />
+		</div>
+	</div>
+	<div class="container upload-container" id="upload-container">
+		<div class="upload-form inner-container">
+		<h3 class="upload-header header">Upload</h3>
+		<h4>Features/Limitations</h4>
+		<ul class="features">
+		  <li>Catalyst only allocates 256MB RAM for serverless functions. Realistically this means a max of ~100MB of upload capability</li>
+		  <li>Zoho People API limitation is 400 file upload calls in 5 minutes. So you should only upload 400 pdfs at once, and then wait 5 minutes or you will get errors.</li>
+		  <li>You can select multiple files for upload in one dialogue, and the server will automatically sort and upload to Zoho People</li>
+		  <li>Authentication can be limited to a single user, or email domain like user.email.Contains("@zoho.com"). Authentication is secured by Catalyst authentication service and provides equivalent security to the rest of Zoho applications.</li>
+		  <li>If the server doesn't fail catastrophically, you will get a log file which contains success/fail data for each file.</li>
+		</ul>
+		<form action="/server/upload_files/upload" method="post" enctype="multipart/form-data">
+		  <input type="file" name="pdf-files" multiple />
+		  <input type="submit" />
+		</form>
+		</div>
+	</div>
+	<div class="container solution-architecture">
+		<div class="inner-container">
+			<div class="header solution-header">
+				<h3 class="header">Zoho Solutions Team - Solution as of 2024-09-13</h3>
+			</div>
+			<div class="solution-image image-container">
+				<img id="solution-image" alt="solutions diagram" src="public/catalyst-solution.png"/>
+			</div>
+		</div>
+	</div>
+	<div class="card">
+			<span class="title" id="">Zoho Solutions Team - </span>
+			<span class="title" id="">September 2024</span>
+			<span class="title"id="" ></span>
+			<span class="title"id="" ></span>
+			<span class="title"id="" ></span>
+	</div>
+<script src="main.js"></script>
+</body>
+</html>

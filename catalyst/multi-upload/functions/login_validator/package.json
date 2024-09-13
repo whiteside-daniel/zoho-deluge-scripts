@@ -1,0 +1,9 @@
+{
+	"name": "login_validator",
+	"version": "1.0.0",
+	"main": "index.js",
+	"author": "daniel.w+secondtest@zohotest.com",
+	"dependencies": {
+		"zcatalyst-sdk-node": "latest"
+	}
+}

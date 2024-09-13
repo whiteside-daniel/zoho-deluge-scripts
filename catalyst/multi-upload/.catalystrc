@@ -1,0 +1,30 @@
+{
+  "defaults": {
+    "project": 1,
+    "env": 1
+  },
+  "actives": {
+    "project": 1,
+    "env": 1
+  },
+  "projects": [
+    {
+      "idx": 1,
+      "id": "19427000000017041",
+      "name": "multi-upload",
+      "domain": {
+        "id": "10088177803",
+        "name": "multi-upload-850855365.development"
+      },
+      "timezone": "America/Chicago",
+      "env": [
+        {
+          "idx": 1,
+          "id": "850855365",
+          "name": "Development",
+          "type": 3
+        }
+      ]
+    }
+  ]
+}

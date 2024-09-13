@@ -1,0 +1,25 @@
+{
+  "name": "apminsight",
+  "version": "2.3.0",
+  "description": "monitor nodejs web applications",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "site24x7",
+    "apm",
+    "apminsight",
+    "monitoring",
+    "performance"
+  ],
+  "author": "apm-insight@zohocorp.com",
+  "engines": {
+    "node": ">=6.0.0"
+  },
+  "license": "SEE LICENSE IN license.txt",
+  "homepage": "https://www.site24x7.com",
+  "dependencies": {
+    "https-proxy-agent": "^5.0.0"
+  }
+}

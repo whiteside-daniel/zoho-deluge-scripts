@@ -1,0 +1,13 @@
+{
+  "functions": {
+    "targets": [
+      "login_validator",
+      "upload_files"
+    ],
+    "ignore": [],
+    "source": "functions"
+  },
+  "client": {
+    "source": "client"
+  }
+}
