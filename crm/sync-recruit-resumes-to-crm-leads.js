@@ -5,8 +5,7 @@ firstName = leadResponse.get("First_Name");
 lastName = leadResponse.get("Last_Name");
 email = leadResponse.get("Email");
 //setup search params
-//this doesn't seem to work if special characters are in the names
-searchParams = "((Last_Name:equals:" +zoho.encryption.urlEncode(lastName)+ ")and(First_Name:equals:"+ zoho.encryption.urlEncode(firstName) +")and(Email:equals:"+ email +"))";
+searchParams = "(Email:equals:"+ email +")";
 info searchParams;
 try{
 	//search for candidates in Recruit that match the unique identifiers
