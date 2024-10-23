@@ -1,5 +1,9 @@
 //this script will copy notes from Accounts to Contacts
-//start with a contactID
+//
+//Prerequisite - you need to set up an Oauth connection and remember what you name that connection
+//then fill that in in line 22 and 54 replacing "my-connection-name" with your own string value
+//
+//start with a contactID and looks up the associated Account
 contactResponse = zoho.crm.getRecordById("Contacts", contactId);
 account = zoho.crm.getRecordById("Accounts", contactResponse.get("Account_Name").getJson("id"));
 try 
@@ -15,7 +19,7 @@ try
 	[
 		url :formattedUrlNotes
 		type :GET
-		connection:"allmodules"
+		connection:"my-connection-name"
 	];
 	
 	//extract the real data from the JSON object
@@ -47,7 +51,7 @@ try
 				url :uploadNotesFormattedUrl
 				type :POST
 				parameters:uploadNotesParams.toString()
-				connection: <Oauth_Connection_Name>
+				connection: "my-connection-name"
 			];
 			//info uploadResponse;
 		}
@@ -61,5 +65,5 @@ catch (e)
 {
 	return e;
 }
-//if you get a return error you made need to uncomment the return statement
+//depending on how your custom function is configured, you may need to uncomment the return statement
 //return "";
