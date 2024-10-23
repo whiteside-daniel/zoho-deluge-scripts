@@ -1,4 +1,8 @@
-//get the entire lead record first
+//Description: this function copies resumes that were uploaded (pdf) to Zoho Recruit into a Candidates record.
+//You should configure a Workflow rule that is triggered when a lead is created and then pass a leadID into a custom function
+//Prerequisite - you should setup an Oauth connection with scopes ZohoCRM.Modules.All, ZohoCRM.files.CREATE, ZohoRecruit.modules.ALL
+//
+//Step 1 - get the lead record details first
 leadResponse = zoho.crm.getRecordById("Leads", leadID);
 //get some details which we will search recruit for a match
 firstName = leadResponse.get("First_Name");
