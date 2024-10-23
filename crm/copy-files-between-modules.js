@@ -1,8 +1,9 @@
-//this scsript copies attachments associated with an Account and creates a duplicate associated with a Contact
-
-//get an Account object/objects - this will be the original source module 
-//of the attachments which need to be transferred
-accountResponse = zoho.crm.getRecordById("Accounts",<Account_ID>);
+//Description: This scsript copies attachments associated with an Account and creates a duplicate associated with a Contact
+//You should configure your function so it passes in an accountId to begin with.
+//Prerequisite: you must have an Oauth connetion setup for CRM with scope ZohoCRM.Modules.ALL
+//
+//get an Account object/objects - this will be the original SOURCE module of the attachments which need to be transferred
+accountResponse = zoho.crm.getRecordById("Accounts",accountId);
 customList = list();
 customList.add(accountResponse);
 //you can add multiple accounts to this list by doing another customList.add(<Account_Object>) statement
@@ -11,10 +12,10 @@ customList.add(accountResponse);
 //for each Account, iterate this loop
 for each  record in customList
 {
-    //get the Account ID
+    	//get the Account ID
 	id = record.get("id");
 	
-    //find related attachments with this Account
+    	//find related attachments with this Account
 	relatedAttachments = zoho.crm.getRelatedRecords("Attachments","Accounts",id.toLong());
 	
     	//get the first Contact assocaited with this Account
@@ -42,7 +43,7 @@ for each  record in customList
 			url :formattedUrl
 			type :GET
 			parameters:invokeParams
-			connection: <Oauth_Connection_Name>
+			connection: "my-connection-name"
 		];
 		
         	//upload this attachment back to the target module, in this case "Contacts"
