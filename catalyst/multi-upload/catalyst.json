@@ -1,8 +1,7 @@
 {
   "functions": {
     "targets": [
-      "login_validator",
-      "upload_files"
+      "bulk-upload"
     ],
     "ignore": [],
     "source": "functions"

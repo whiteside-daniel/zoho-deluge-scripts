@@ -5,10 +5,10 @@ catalyst.auth.isUserAuthenticated().then(result => {
     //If the user is logged in, these contents of the page will be displayed to the user
     //console.log(result.content);
     document.body.style.visibility = "visible";
-    const first_name = "First Name: " + result.content.first_name;
-    document.getElementById("fname").innerHTML = first_name;
-    const last_name = "Last Name: " + result.content.last_name;
-    document.getElementById("lname").innerHTML = last_name;
+//    const first_name = "First Name: " + result.content.first_name;
+//    document.getElementById("fname").innerHTML = first_name;
+//    const last_name = "Last Name: " + result.content.last_name;
+//    document.getElementById("lname").innerHTML = last_name;
     const mailid = "Email Address: " + result.content.email_id;
     document.getElementById("mailid").innerHTML = mailid;
     const tzone = "Time Zone: " + result.content.time_zone;
@@ -32,34 +32,12 @@ function logout() {
 const redirectURL = location.protocol +"//"+ location.hostname + "/__catalyst/auth/login";
 catalyst.auth.signOut(redirectURL);
 }
-function uploadFiles() {
-	console.log("trying");
-	const apiUrl = '/server/upload_files/';
-	const data = document.getElementById("file-upload").files;
-	console.log(data)
-	// All URLs to the Advanced I/O function will be of the pattern: /server/{function_name}/{url_path}
-	//request parameters
-	const requestOptions = {
-	  method: 'POST',
-	  headers: {
-	    'Content-Type': 'file'
-	  },
-	  body: data,
-	};
-	//fetch API call to server
-	fetch(apiUrl, requestOptions)
-	  .then(response => {
-	    if (!response.ok) {
-	      throw new Error('Network response was not ok');
-	    }
-	    return response.json();
-	  })
-	  .then(data => {
-	    console.log(JSON.stringify(data));
-	  })
-	  .catch(error => {
-	    console.error
-
-	('Error:', error);
-	  });
+function getLogFile() {
+    const apiUrl = '/server/bulk-upload/logFile';
+    window.location.href = apiUrl;
+}
+function mouseWaiting() {
+    document.body.style.cursor = 'wait';
+    const submitButton = document.getElementById("submit-button");
+    submitButton.style.visibility = 'hidden';
 }

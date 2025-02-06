@@ -1,0 +1,55 @@
+[debug] [2025-02-05T21:13:23.919Z] : 
+[debug] [2025-02-05T21:13:23.920Z] : ----------------------------------------------------------------------
+[debug] [2025-02-05T21:13:23.920Z] : Command:      /usr/local/bin/node /usr/local/bin/catalyst serve
+[debug] [2025-02-05T21:13:23.920Z] : CLI Version:  1.17.6
+[debug] [2025-02-05T21:13:23.920Z] : Platform:     darwin
+[debug] [2025-02-05T21:13:23.920Z] : Node Version: v18.15.0
+[debug] [2025-02-05T21:13:23.924Z] : Time:         Wed Feb 05 2025 15:13:23 GMT-0600 (Central Standard Time)
+[debug] [2025-02-05T21:13:23.924Z] : ----------------------------------------------------------------------
+[debug] [2025-02-05T21:13:23.925Z] : 
+[debug] [2025-02-05T21:13:24.406Z] : > authorizing via signed-in user option
+[debug] [2025-02-05T21:13:24.406Z] : > command requires scopes: ["ZohoCatalyst.projects.ALL","ZohoCatalyst.functions.ALL","ZohoCatalyst.functions.EXECUTE","ZohoCatalyst.webapp.ALL","ZohoCatalyst.pdfshot.execute","ZohoCatalyst.authentication.CREATE"]
+[debug] [2025-02-05T21:13:24.410Z] : >>>> HTTP REQUEST : GET https://api.catalyst.zoho.com/baas/v1/project/21824000000009001 
+
+[debug] [2025-02-05T21:13:24.795Z] : <<<< HTTP RESPONSE : 200
+Response Headers: {"server":"ZGS","date":"Wed, 05 Feb 2025 21:13:24 GMT","content-type":"application/vnd.catalyst.v2+json","transfer-encoding":"chunked","connection":"close","set-cookie":["zalb_46512fd555=bbdfb771565421abbe10f7a180903d28; Path=/; Secure; HttpOnly","ZD_CSRF_TOKEN=8d059c05-0436-4edc-bcc0-de7bc836f287;path=/;SameSite=None;Secure;priority=high","_zcsr_tmp=8d059c05-0436-4edc-bcc0-de7bc836f287;path=/;SameSite=Strict;Secure;priority=high"],"x-content-type-options":"nosniff","x-xss-protection":"1","cache-control":"private,no-cache,no-store,max-age=0,must-revalidate","pragma":"no-cache","expires":"Thu, 01 Jan 1970 00:00:00 GMT","x-frame-options":"DENY","strict-transport-security":"max-age=63072000"}
+
+[debug] [2025-02-05T21:13:24.802Z] : >>>> HTTP REQUEST : GET https://api.catalyst.zoho.com/baas/v1/project/21824000000009001/environment 
+
+[debug] [2025-02-05T21:13:25.126Z] : <<<< HTTP RESPONSE : 200
+Response Headers: {"server":"ZGS","date":"Wed, 05 Feb 2025 21:13:25 GMT","content-type":"application/vnd.catalyst.v2+json","transfer-encoding":"chunked","connection":"close","set-cookie":["zalb_46512fd555=bbdfb771565421abbe10f7a180903d28; Path=/; Secure; HttpOnly","ZD_CSRF_TOKEN=5a7a7a71-5c02-4fc1-8ceb-5431dbab4c99;path=/;SameSite=None;Secure;priority=high","_zcsr_tmp=5a7a7a71-5c02-4fc1-8ceb-5431dbab4c99;path=/;SameSite=Strict;Secure;priority=high"],"x-content-type-options":"nosniff","x-xss-protection":"1","cache-control":"private,no-cache,no-store,max-age=0,must-revalidate","pragma":"no-cache","expires":"Thu, 01 Jan 1970 00:00:00 GMT","x-frame-options":"DENY","strict-transport-security":"max-age=63072000"}
+
+[debug] [2025-02-05T21:13:25.276Z] : >>>> HTTP REQUEST : GET https://api.catalyst.zoho.com/baas/v1/project/21824000000009001/function 
+Query params: {"type":"basicio,event,cron,applogic,integration,browser_logic"}
+
+[debug] [2025-02-05T21:13:25.636Z] : <<<< HTTP RESPONSE : 200
+Response Headers: {"server":"ZGS","date":"Wed, 05 Feb 2025 21:13:25 GMT","content-type":"application/vnd.catalyst.v2+json","transfer-encoding":"chunked","connection":"close","set-cookie":["zalb_46512fd555=c3d5ec374d3dc932973a3d50f55d8d00; Path=/; Secure; HttpOnly","ZD_CSRF_TOKEN=e8ca8e83-06bb-48f6-a437-4caf5f46b05f;path=/;SameSite=None;Secure;priority=high","_zcsr_tmp=e8ca8e83-06bb-48f6-a437-4caf5f46b05f;path=/;SameSite=Strict;Secure;priority=high"],"x-content-type-options":"nosniff","x-xss-protection":"1","cache-control":"private,no-cache,no-store,max-age=0,must-revalidate","pragma":"no-cache","expires":"Thu, 01 Jan 1970 00:00:00 GMT","x-frame-options":"DENY","strict-transport-security":"max-age=63072000"}
+
+[debug] [2025-02-05T21:13:25.643Z] : unknown eol undefined hence skipping check
+[info] [2025-02-05T21:13:26.269Z] : 
+[info] [2025-02-05T21:13:26.269Z] :  >>>>>>>>>>>>> AdvancedIO <<<<<<<<<<<< 
+[info] [2025-02-05T21:13:26.270Z] : ℹ bulk-upload: http://localhost:3000/server/bulk-upload/
+[info] [2025-02-05T21:13:26.270Z] : 
+[info] [2025-02-05T21:13:26.270Z] : 
+[info] [2025-02-05T21:13:26.270Z] :  >>>>>>>>>>>>> Web Client <<<<<<<<<<<<
+[info] [2025-02-05T21:13:26.270Z] : ℹ client[clientApp]: http://localhost:3000/app/
+[info] [2025-02-05T21:13:26.270Z] : 
+[info] [2025-02-05T21:36:09.015Z] : Change(s) is detected in index.html of the Web-Client.
+[info] [2025-02-05T21:37:46.055Z] : 
+change of index.js in bulk-upload detected. Preparing your function, please wait...
+[info] [2025-02-05T21:37:46.793Z] : ℹ AdvancedIO[bulk-upload]: ready!
+[info] [2025-02-05T21:37:46.793Z] : ℹ AdvancedIO[bulk-upload]: http://localhost:3000/server/bulk-upload/
+[info] [2025-02-05T21:40:23.618Z] : 
+change of index.js in bulk-upload detected. Preparing your function, please wait...
+[info] [2025-02-05T21:40:24.335Z] : ℹ AdvancedIO[bulk-upload]: ready!
+[info] [2025-02-05T21:40:24.335Z] : ℹ AdvancedIO[bulk-upload]: http://localhost:3000/server/bulk-upload/
+[info] [2025-02-05T21:45:41.879Z] : 
+change of index.js in bulk-upload detected. Preparing your function, please wait...
+[info] [2025-02-05T21:45:42.577Z] : ℹ AdvancedIO[bulk-upload]: ready!
+[info] [2025-02-05T21:45:42.577Z] : ℹ AdvancedIO[bulk-upload]: http://localhost:3000/server/bulk-upload/
+[info] [2025-02-05T21:53:27.797Z] : 
+change of index.js in bulk-upload detected. Preparing your function, please wait...
+[info] [2025-02-05T21:53:28.509Z] : ℹ AdvancedIO[bulk-upload]: ready!
+[info] [2025-02-05T21:53:28.509Z] : ℹ AdvancedIO[bulk-upload]: http://localhost:3000/server/bulk-upload/
+[info] [2025-02-06T03:58:31.305Z] : Change(s) is detected in .DS_Store of the Web-Client.
+[info] [2025-02-06T03:58:46.879Z] : Change(s) is detected in .DS_Store of the Web-Client.
