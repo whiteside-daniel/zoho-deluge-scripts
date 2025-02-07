@@ -1,8 +1,11 @@
-//this deluge function will find all Deals which are related to an account, and display them in a custom related list.
-//Custom Related Lists are built with a deluge function that returns XML
-//The CRM engine renders the XML in the UI as if it were a related list like any other
+//this deluge function will find all Deals which are related to an account, 
+//and display them in a custom related list.Custom Related Lists are built 
+//with a deluge function that returns XML. The CRM engine renders the XML 
+//in the UI as if it were a related list like any other.
 
-//Step 1. Go to the Accounts module and visit any account. On the left tab, click "Add Related List" and then choose the "Function" option
+//Step 1. Go to the Accounts module and visit any account. On the left tab, 
+//click "Add Related List" and then choose the "Function" option
+//
 //Step 2. Create a new function and paste the code below into the function editor
 string createXMLCustomRelatedList(String accountId)
 {
@@ -36,7 +39,7 @@ string createXMLCustomRelatedList(String accountId)
     }
     return responseXML;
 }
-
+//
 //Step 3. in line 24, change the orgID from the sample value 841022399 to your own org ID
 //You can find that org ID in your URL or in your CRM settings
 //Step 4. Map the Account ID to your input variable "accountId" and save the function
