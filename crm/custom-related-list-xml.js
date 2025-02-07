@@ -21,9 +21,10 @@ string createXMLCustomRelatedList(String accountId)
             dealId = ele.get("id");
             dealName = ele.get("Deal_Name");
             responseXML = responseXML + "<row no=\"" + rowCount + "\">";
-            responseXML = responseXML + "<FL val='Deal' link='true' url='https://crm.zoho.com/crm/org841022352/tab/Potentials/" + dealId + "'>" + dealName + "</FL>";
+            responseXML = responseXML + "<FL val='Deal' link='true' url='https://crm.zoho.com/crm/org841022399/tab/Potentials/" + dealId + "'>" + dealName + "</FL>";
             responseXML = responseXML + "<FL val='Owner'>" + accountOwner + "</FL>";
             responseXML = responseXML + "<FL val='Stage'>" + status + "</FL>";
+            //responseXML = responseXML + "<FL val='Another Column'>" + column_value + "</FL>";
             responseXML = responseXML + "</row>";
             rowCount = rowCount + 1;
         }
@@ -36,4 +37,5 @@ string createXMLCustomRelatedList(String accountId)
     return responseXML;
 }
 
-//Step 3. Map the Account ID to your input variable "accountId" and save the function
+//Step 3. 
+//Step 4. Map the Account ID to your input variable "accountId" and save the function
