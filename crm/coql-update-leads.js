@@ -10,10 +10,8 @@ response = invokeurl
 	parameters:queryMap.toString()
 	connection:"coqlconnection"
 ];
-info response;
 sumOfDeals = response.get('data').get(0).get("SUM(Amount)");
-info sumOfDeals;
 updateParams = {"Pending_Deal_Total":sumOfDeals};
 updateResponse = zoho.crm.updateRecord("Leads",leadID,updateParams);
-return "ok";
+return "";
 }
