@@ -37,5 +37,6 @@ string createXMLCustomRelatedList(String accountId)
     return responseXML;
 }
 
-//Step 3. 
+//Step 3. in line 24, change the orgID from the sample value 841022399 to your own org ID
+//You can find that org ID in your URL or in your CRM settings
 //Step 4. Map the Account ID to your input variable "accountId" and save the function
