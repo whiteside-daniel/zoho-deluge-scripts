@@ -16,7 +16,7 @@ app.use(express.json());
 //multer for grabbing the files from the HTML form
 const multer = require('multer');
 //multer options
-const upload = multer({ dest : '/tmp/' , limits: { files : 	400 , fileSize: 1000000} });
+const upload = multer({ dest : '/tmp/' , limits: { files : 	400 , fileSize: 1024*1024} });
 
 //fs and form-data for turning the file into a readable stream
 const fs = require('fs');
@@ -42,8 +42,25 @@ const accessTokenURL = `https://accounts.zoho.com/oauth/v2/token?refresh_token=$
 
 
 
-
+//
 //FUNCTIONS...FUNCTIONS...FUNCTIONS
+//
+
+//Error handler for multer plugin error when file is too large etc (line 19)
+const ErrorHandler = (err, req, res, next) => {
+    console.log("Middleware Error Hadnling");
+    const errStatus = err.statusCode || 500;
+    const errMsg = err.message || 'Something went wrong';
+    res.status(errStatus).json({
+        success: false,
+        status: errStatus,
+        message: errMsg,
+        stack: process.env.NODE_ENV === 'development' ? err.stack : {}
+    })
+}
+//this needs to be the last app.use statement in this code
+app.use(ErrorHandler);
+
 
 //OPEN AND CLOSE A FILE... BUSYWORK
 async function openClose() {
@@ -58,6 +75,7 @@ async function openClose() {
     });
 }
 
+
 //LOG MESSAGES - log filedata to the log file
 async function logFileMessage(message) {
     return new Promise((resolve, reject) => {
@@ -70,6 +88,7 @@ async function logFileMessage(message) {
         });
     })
 }
+
 
 //PROCESS ARRAY
 //async function which processes an entire array by "waiting" for each of the elements one-by-one
@@ -205,7 +224,7 @@ async function processFile(file, authHeader) {
 //
 //
 //POST REQUEST... POST REQUEST... POST REQUEST going to server/upload
-app.post('/upload' , upload.array('pdf-files') , async function(req, res) {
+app.post('/upload' , upload.array('pdf-files'), async function(req, res) {
     console.log('trying to upload');
 	const files = req.files;
 	if(files.length == 0) {
