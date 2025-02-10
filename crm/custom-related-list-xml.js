@@ -4,7 +4,9 @@
 //in the UI as if it were a related list like any other. The Related List
 //is generated whenever you scroll far enough down the record that 
 //part of the page begins to load... it's at this moment CRM will call the
-//function which renders the XML for the custom related list.
+//function which renders the XML for the custom related list. Special thanks
+//to Zach Zivnuska for diggin up this code from the depths of some Zoho 
+//developer's basement file cabinet.
 
 //Step 1. Go to the Accounts module and visit any account. On the left tab, 
 //click "Add Related List" and then choose the "Function" option
