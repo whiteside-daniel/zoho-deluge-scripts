@@ -43,7 +43,8 @@ Now you can update your /server or /app files, and see the live changes at your 
 I haven't gone into much detail about pulling data from CRM into your widget, but this is possible via the Widget SDK. Docs are here: https://www.zohocrm.dev/explore/widgets/v1.2. See this link for an extensive list of functions available to enhance your Zoho CRM widgets.
 
 You could edit your widget.html file to add a script like this, which can grab data from CRM:
-`<script src="https://live.zwidgets.com/js-sdk/1.2/ZohoEmbededAppSDK.min.js"></script>
+```
+<script src="https://live.zwidgets.com/js-sdk/1.2/ZohoEmbededAppSDK.min.js"></script>
 <script> 
     //Subscribe to the EmbeddedApp onPageLoad event before initializing
     ZOHO.embeddedApp.on( "PageLoad", function( data ){
@@ -52,7 +53,8 @@ You could edit your widget.html file to add a script like this, which can grab d
     })
     //Initializing the widget. 
     ZOHO.embeddedApp.init();
-</script>`
+</script>
+```
 The first `<script>` tag loads the Zoho Widget SDK into your browswer, allowing the second script to access critical Zoho Functionality (as if it were a natural extension of JavaScript). 
 ### Step 6 - Test the Widget Live in CRM
 Now you're app is getting better, but you're ready to test it in CRM? Go to CRM -> Settings -> Developer Center -> Widgets -> Create New. 
