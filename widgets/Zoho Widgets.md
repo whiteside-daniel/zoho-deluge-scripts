@@ -62,7 +62,7 @@ Now you're app is getting better, but you're ready to test it in CRM? Go to CRM 
 Type - You need to decide which kind of widget you want to develop based on your specific business needs. See Part 4 of https://www.zoho.com/crm/developer/docs/widgets/ for more information about the types of CRM widgets. 
 
 #### Configure Local Hosting for Testing
-Hosting - set it to "External" and for the URL enter your local address (https://127.0.0.1:5000). This will only work if you are live with `zet run` on your local computer, and it will only work for YOU since the IP address 127.0.0.1 is actually a loop-back address. 
+Hosting - set it to "External" and for the URL enter your local address (https://127.0.0.1:5000/app/widget.html). This will only work if you are live with `zet run` on your local computer, and it will only work for YOU since the IP address 127.0.0.1 is actually a loop-back address. 
 
 Later when you're done developing your widget we will change this setting. For now we will leave it as external, with the local IP address of your hosted app, and let the CRM and browswer route to your local computer to test the widget.
 
@@ -76,8 +76,8 @@ Then:
 `zet pack` - after this is complete, you'll have a .zip file in /dist folder which contains all the files needed by your widget. Don't unzip this yet, as you will upload the entire .zip file into CRM.
 
 ### Step 8 - Upload your Widget
-Go back to CRM -> Settings -> Developer Space -> Widgets and find the widget you just created. Change the hosting from "External" to "Zoho" and upload your zip file. If the main html file in your widget was in /app/widget.html then set "Index Page" to widget.html. Else, append the subfolder like this: /folder/rootIndex.html
+Go back to CRM -> Settings -> Developer Space -> Widgets and find the widget you just created. Change the hosting from "External" to "Zoho" and upload your zip file. If the main html file in your widget was in /app/widget.html then set "Index Page" to /widget.html. 
 
 ## END
 
-written by Daniel Whiteside, daniel.w@zohocorp.com or whiteside.danielj@gmail.com
+written by Daniel Whiteside - Zoho Developer / Project Manager - whiteside.danielj@gmail.com
