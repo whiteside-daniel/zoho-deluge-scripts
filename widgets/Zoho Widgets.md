@@ -33,7 +33,6 @@ To develop and test your widget initially, you'll probably want to serve the fun
 
 When you do `zet run`, it will automatically build and deploy your widget live for you on your localhost (127.0.0.1:5000). This means you can go to a browser on your computer and navigate to https://127.0.0.1:5000 and see your app live. You may get a security warning the first time, and you should ignore/allow/dismiss that in order to see your widget.
 
-Note: the first time I did this on my local computer I got an error that "Port 5000 is already in use." If this happens to you, you'll have to edit the index.js file in the 'server' folder. Open the open /server/index.js and change the variable port from 5000 to another open port (like 3000 or 8080). 
 
 ### Step 5 - Develop your Widget
 Now you can update your /server or /app files, and see the live changes at your live URL. Just refresh your page in the browswer to see new changes. 
@@ -84,17 +83,16 @@ Go back to CRM -> Settings -> Developer Space -> Widgets and find the widget you
 
 My Script is not loading data from CRM
 ```
-<script> 
-    //Subscribe to the EmbeddedApp onPageLoad event before initializing
-    ZOHO.embeddedApp.on( "PageLoad", function( data ){
-        console.log( data );
-        // DATA IS NEVER LOGGED TO THE CONSOLE!
-    })
-    //Initializing the widget. 
-    ZOHO.embeddedApp.init();
-</script>
+ZOHO.embeddedApp.on( "PageLoad", function( data ){
+    console.log( data );
+    // DATA IS NEVER LOGGED TO THE CONSOLE!
+}) 
+ZOHO.embeddedApp.init();
 ```
 In this case, you need to check a couple of things. First, make sure you have `<script src="https://live.zwidgets.com/js-sdk/1.2/ZohoEmbededAppSDK.min.js"></script>` linked correctly in your widget html file. Second, make sure your Hosting URL is configured correctly. If you use anything other than https://127.0.0.1:5000/app/widget.html for local testing/development - be careful. 
+
+### Port 5000 Already in Use
+Sometimes when I do CRM widgets on my local machine, I get an error that "Port 5000 is already in use." If this happens to you, the best option is to shutdown the other service that's operating on port 5000. Otherwise you'll have to edit the index.js file in the 'server' folder. Open the open /server/index.js and change the variable port from 5000 to another open port (like 3000 or 8080). 
 
 ## END
 
