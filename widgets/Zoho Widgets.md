@@ -62,7 +62,7 @@ Now you're app is getting better, but you're ready to test it in CRM? Go to CRM 
 Type - You need to decide which kind of widget you want to develop based on your specific business needs. See Part 4 of https://www.zoho.com/crm/developer/docs/widgets/ for more information about the types of CRM widgets. 
 
 #### Configure Local Hosting for Testing
-Hosting - set it to "External" and for the URL enter your local address (https://127.0.0.1:5000/app/widget.html). This will only work if you are live with `zet run` on your local computer, and it will only work for YOU since the IP address 127.0.0.1 is actually a loop-back address. 
+Hosting - in the widget configuration dialogue, set the Hosting to "External" and for the URL enter your local address (https://127.0.0.1:5000/app/widget.html). This will only work if you are live with `zet run` on your local computer, and it will only work for YOU since the IP address 127.0.0.1 is actually a loop-back address. 
 
 Later when you're done developing your widget we will change this setting. For now we will leave it as external, with the local IP address of your hosted app, and let the CRM and browswer route to your local computer to test the widget.
 
@@ -77,6 +77,24 @@ Then:
 
 ### Step 8 - Upload your Widget
 Go back to CRM -> Settings -> Developer Space -> Widgets and find the widget you just created. Change the hosting from "External" to "Zoho" and upload your zip file. If the main html file in your widget was in /app/widget.html then set "Index Page" to /widget.html. 
+
+## Errors and Debugging
+
+### SDK Not Loading
+
+My Script is not loading data from CRM
+```
+<script> 
+    //Subscribe to the EmbeddedApp onPageLoad event before initializing
+    ZOHO.embeddedApp.on( "PageLoad", function( data ){
+        console.log( data );
+        // DATA IS NEVER LOGGED TO THE CONSOLE!
+    })
+    //Initializing the widget. 
+    ZOHO.embeddedApp.init();
+</script>
+```
+In this case, you need to check a couple of things. First, make sure you have `<script src="https://live.zwidgets.com/js-sdk/1.2/ZohoEmbededAppSDK.min.js"></script>` linked correctly in your widget html file. Second, make sure your Hosting URL is configured correctly. If you use anything other than https://127.0.0.1:5000/app/widget.html for local testing/development - be careful. 
 
 ## END
 
