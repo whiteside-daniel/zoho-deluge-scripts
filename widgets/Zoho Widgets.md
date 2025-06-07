@@ -1,8 +1,8 @@
-# CRM Widgets
+# Zoho CRM Widgets
 
 https://www.zoho.com/crm/developer/docs/widgets/
 
-## CRM Widgets
+## Developing CRM Widgets
 
 To set up a CRM widget you need to be proficient in JavaScript, and HTML - you could also use a framework like React but that won't be covered in this document.
 
