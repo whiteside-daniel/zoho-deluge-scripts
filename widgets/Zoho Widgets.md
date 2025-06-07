@@ -63,14 +63,7 @@ Now you're app is getting better, but you're ready to test it in CRM? Go to CRM 
 Type - You need to decide which kind of widget you want to develop based on your specific business needs. See Part 4 of https://www.zoho.com/crm/developer/docs/widgets/#types for more information about the types of CRM widgets. 
 
 #### Widget Types
-Dashboard
-Web tab
-Custom Button
-Custom Related List
-Wizard
-Signal
-Settings
-Blueprint
+Dashboard, Web tab, Custom Button, Custom Related List, Wizard, Signal, Settings, Blueprint
 
 #### Configure Local Hosting for Testing
 Hosting - in the widget configuration dialogue, set the Hosting to "External" and for the URL enter your local address (https://127.0.0.1:5000/app/widget.html). This will only work if you are live with `zet run` on your local computer, and it will only work for YOU since the IP address 127.0.0.1 is actually a loop-back address. 
