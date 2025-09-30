@@ -1,5 +1,5 @@
 //This is a Zoho Deluge function intended to provide custom restock notifications for items that are low stock in a particular warehouse. The way Zoho Inventory currently offers restock notifications is for the global quantity, but if stock is low at one warehouse you won't be notified. THis script fixes that.
-//You need to have custom fields on your items called ABC Restock Quantity, DEF Restock Quaitity... and so on
+//You need to have custom fields on your items called ABC Restock Quantity, DEF Restock Quaitity... and so on. Paste the warehouse Ids and the restock custom field IDs below.
 //When stock of a given item at warehouse ABC drops below the threshold set by ABC Restock Quantity - you'll get a notification
 //You won't get notified if a Purchase Order or Transfer order has been submitted for that item/warehouse combo in the last 4 days
 //You also need a connection called "zohoinventory" with scopes to read/write from Items, POs, Warehouses, and Transfer Orders
