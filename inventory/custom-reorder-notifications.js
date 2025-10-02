@@ -14,6 +14,14 @@ warehouseList.add({"id":"889007000003163898","name":"MNO","customFieldId":"88900
 warehouseList.add({"id":"889007000002572184","name":"TUV","customFieldId":"889007000005584027","notify":"jim@internet.com"});
 response = Map();
 response.put("functionTriggered",now);
+
+//APP VARIABLES
+//APP VARIABLES
+testMode = false;
+organizationId = organization.get("organization_id");
+connectionString = "zohoinventory";
+daysToCheck = 42;
+//6 weeks
 //This script should check the quantity available of all items at each warehouse. For any item which is below the threshold of a reorder quanitity, add that item detail to a list. When the check is complete - send an email with items which are low stock. 
 //CHECK FOR WAREHOUSE TRANSFER OR PURCHASE ORDER HAS BEEN SUBMITTED
 // //WH TRANSFER
@@ -28,9 +36,11 @@ whtData = whtResponse.get("transfer_orders");
 whtList = list();
 for each  wh in whtData
 {
+	//info wh;
 	whtId = wh.get("transfer_order_id");
 	whtDate = wh.get("date").toDate();
-	if(whtDate > today.subDay(5) && whtDate <= today)
+	whtInTransit = wh.get("is_intransit_order");
+	if(whtDate > today.subDay(daysToCheck) && whtDate <= today && whtInTransit == true)
 	{
 		resp = zoho.inventory.getRecordsByID("transferorders",organizationId,whtId,"zohoinventory");
 		items = resp.get("transfer_order").get("line_items");
@@ -44,6 +54,7 @@ for each  wh in whtData
 	}
 }
 //PO
+poStatuses = {"issued"};
 poUrl = "https://www.zohoapis.com/inventory/v1/purchaseorders?organization_id=" + organizationId;
 poResponse = invokeurl
 [
@@ -56,10 +67,12 @@ poData = poResponse.get("purchaseorders");
 poList = list();
 for each  po in poData
 {
+	//info po;
 	poId = po.get("purchaseorder_id");
 	poDate = po.get("date").toDate();
 	//info({"date": poDate, "id": poId});
-	if(poDate > today.subDay(5) && poDate <= today)
+	poStatus = po.get("status");
+	if(poDate > today.subDay(daysToCheck) && poDate <= today && poStatuses.contains(poStatus))
 	{
 		resp = zoho.inventory.getRecordsByID("purchaseorders",organizationId,poId,"zohoinventory");
 		//info resp;
@@ -74,7 +87,6 @@ for each  po in poData
 		poList.add({"id":poId,"date":poDate,"items":itemList});
 	}
 }
-//info poList;
 // //STEP 2 - COMPILE LIST OF ALL ITEMS
 itemsResponse = invokeurl
 [
@@ -91,8 +103,10 @@ for each  item in items
 	reorderWarehouses = list();
 	sendEmail = false;
 	itemId = item.get("item_id");
+	itemSku = item.get("sku");
 	isComboProduct = item.getJSON("is_combo_product");
 	itemResponse.put("id",itemId);
+	itemResponse.put("sku",itemSku);
 	if(!isComboProduct)
 	{
 		itemDetailURL = "https://www.zohoapis.com/inventory/v1/items/" + itemId;
@@ -108,7 +122,7 @@ for each  item in items
 		for each  warehouse in itemWarehouseData
 		{
 			itemWarehouseId = warehouse.get("warehouse_id");
-			qtyInStock = warehouse.get("warehouse_available_stock");
+			qtyInStock = warehouse.get("warehouse_stock_on_hand");
 			// Find this specific warehouse in our list
 			foundWarehouse = false;
 			whName = "";
@@ -281,27 +295,34 @@ try
 			{
 				if(wh.get("reorder") == true)
 				{
-					notifyEmail = wh.get("notify");
-					// Check if email already exists in map
-					if(!notificationGroups.containKey(notifyEmail))
+					notifyEmails = wh.get("notify");
+					// Handle both single email (string) and multiple emails (list)
+					emailList = notifyEmails;
+					// Process each email in the list
+					for each  notifyEmail in emailList
 					{
-						// Create new list for this email
-						emailItemsList = list();
-						notificationGroups.put(notifyEmail,emailItemsList);
+						// Check if email already exists in map
+						if(!notificationGroups.containKey(notifyEmail))
+						{
+							// Create new list for this email
+							emailItemsList = list();
+							notificationGroups.put(notifyEmail,emailItemsList);
+						}
+						// Get the existing list
+						existingList = notificationGroups.get(notifyEmail);
+						// Create item info
+						itemInfo = Map();
+						itemInfo.put("item_id",item.get("id"));
+						itemInfo.put("sku",item.get("sku"));
+						itemInfo.put("item_name",itemName);
+						itemInfo.put("warehouse",wh.get("warehouse"));
+						itemInfo.put("qty_in_stock",wh.get("qty_in_stock"));
+						itemInfo.put("reorder_threshold",wh.get("reorder_threshold"));
+						// Add to list
+						existingList.add(itemInfo);
+						// Put the updated list back
+						notificationGroups.put(notifyEmail,existingList);
 					}
-					// Get the existing list
-					existingList = notificationGroups.get(notifyEmail);
-					// Create item info
-					itemInfo = Map();
-					itemInfo.put("item_id",item.get("id"));
-					itemInfo.put("item_name",itemName);
-					itemInfo.put("warehouse",wh.get("warehouse"));
-					itemInfo.put("qty_in_stock",wh.get("qty_in_stock"));
-					itemInfo.put("reorder_threshold",wh.get("reorder_threshold"));
-					// Add to list
-					existingList.add(itemInfo);
-					// Put the updated list back
-					notificationGroups.put(notifyEmail,existingList);
 				}
 			}
 		}
@@ -313,12 +334,12 @@ try
 			emailBody = "<h3>Low Stock Alert - " + today + "</h3>";
 			emailBody = emailBody + "<p>The following items are below reorder threshold:</p>";
 			emailBody = emailBody + "<table border='1' cellpadding='5'>";
-			emailBody = emailBody + "<tr><th>Item Name</th><th>Item ID</th><th>Warehouse</th><th>Current Stock</th><th>Reorder Threshold</th></tr>";
+			emailBody = emailBody + "<tr><th>Item Name</th><th>Barcode</th><th>Warehouse</th><th>Current Stock</th><th>Reorder Threshold</th></tr>";
 			for each  item in items
 			{
 				emailBody = emailBody + "<tr>";
 				emailBody = emailBody + "<td>" + item.get("item_name") + "</td>";
-				emailBody = emailBody + "<td>" + item.get("item_id") + "</td>";
+				emailBody = emailBody + "<td>" + item.get("sku") + "</td>";
 				emailBody = emailBody + "<td>" + item.get("warehouse") + "</td>";
 				emailBody = emailBody + "<td>" + item.get("qty_in_stock") + "</td>";
 				emailBody = emailBody + "<td>" + item.get("reorder_threshold") + "</td>";
@@ -326,16 +347,21 @@ try
 			}
 			emailBody = emailBody + "</table>";
 			// Send email - uncomment when ready
-			/*
-			sendmail
-			[
-				from :zoho.adminuserid
-				to :email
-				subject :"Low Stock Alert - " + today
-				message :emailBody
-			]
-			*/
-			info "Email would be sent to: " + email;
+			if(testMode)
+			{
+				info "Email would be sent to: " + email;
+			}
+			else
+			{
+				sendmail
+				[
+					from :zoho.adminuserid
+					to :email
+					subject :"TEST - Low Stock Alert - " + today
+					message :emailBody
+				]
+				info "Email was sent to: " + email;
+			}
 			info emailBody;
 		}
 	}
@@ -352,3 +378,4 @@ catch (e)
 	response.put("error",e.toString());
 }
 response.put("completed",now);
+
