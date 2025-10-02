@@ -3,6 +3,11 @@
 //When stock of a given item at warehouse ABC drops below the threshold set by ABC Restock Quantity - you'll get a notification
 //You won't get notified if a Purchase Order or Transfer order has been submitted for that item/warehouse combo in the last 4 days
 //You also need a connection called "zohoinventory" with scopes to read/write from Items, POs, Warehouses, and Transfer Orders
+//APP VARIABLES
+//APP VARIABLES
+testMode = false;
+daysToCheck = 42;
+//6 weeks
 organizationId = organization.get("organization_id");
 connectionString = "zohoinventory";
 warehouseList = list();
@@ -15,13 +20,6 @@ warehouseList.add({"id":"889007000002572184","name":"TUV","customFieldId":"88900
 response = Map();
 response.put("functionTriggered",now);
 
-//APP VARIABLES
-//APP VARIABLES
-testMode = false;
-organizationId = organization.get("organization_id");
-connectionString = "zohoinventory";
-daysToCheck = 42;
-//6 weeks
 //This script should check the quantity available of all items at each warehouse. For any item which is below the threshold of a reorder quanitity, add that item detail to a list. When the check is complete - send an email with items which are low stock. 
 //CHECK FOR WAREHOUSE TRANSFER OR PURCHASE ORDER HAS BEEN SUBMITTED
 // //WH TRANSFER
@@ -30,7 +28,7 @@ whtResponse = invokeurl
 [
 	url :transferUrl
 	type :GET
-	connection:"zohoinventory"
+	connection:connectionString
 ];
 whtData = whtResponse.get("transfer_orders");
 whtList = list();
