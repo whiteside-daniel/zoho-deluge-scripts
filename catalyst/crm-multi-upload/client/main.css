@@ -1,0 +1,86 @@
+/* LET THE STYLING BEGIN */
+:root {
+    --main-accent-color: ;
+}
+.card{
+	text-align: center;
+	margin-bottom: 5px;
+	margin-top: 5px;
+	font-size: .7em;
+}
+#log-file-link:hover {
+    cursor: pointer;
+}
+.form-check-input:checked {
+    background-color: #28a745;
+    border-color: #28a745;
+}
+
+.form-check-input:focus {
+    border-color: #28a745;
+    box-shadow: 0 0 0 0.25rem rgba(40, 167, 69, 0.25);
+}
+.radio-select-element {
+    padding: 15px;
+}
+.footer-par{
+    text-align: center;
+    font-size: .7em;
+	padding-top: 10px;
+}
+/*
+.container{
+	border: solid 2px;
+	border-radius: 15px;
+	padding-top: 10px;
+	padding-bottom: 10px;
+}
+.inner-container {
+	border: solid 4px;
+	border-radius: 15px;
+	border-color: #00009933;
+}
+.navbar{
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	font-size: .9em;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	padding-left: 15px;
+	padding-right: 15px;
+	margin-bottom: 10px;
+	border: solid 4px;
+	border-color: #00000022;
+	border-radius: 10px;
+}
+.features-table{
+	
+}
+.upload-container {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	
+}
+.upload-form {
+	padding: 20px;
+	max-width: 450px;
+}
+
+.header{
+	text-align: center;
+}
+.features{
+	font-size: .875em;
+}
+.solution-architecture {
+	margin-top: 50px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+#solution-image {
+	height: 70vh;
+}
+*/
