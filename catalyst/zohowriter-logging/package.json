@@ -1,0 +1,10 @@
+{
+	"name": "writer_log",
+	"version": "1.0.0",
+	"main": "index.js",
+	"author": "zoho@brkthru.com",
+	"dependencies": {
+		"express": "^5.1.0",
+		"zcatalyst-sdk-node": "^3.0.3"
+	}
+}
