@@ -1,6 +1,6 @@
 # Zoho Writer Logs via Catalyst Function
 
-Configure Zoho Writer with advanced logging
+Configure Zoho Writer with advanced logging. Zoho writer cam implement custom Deluge scripts, but those scripts are difficult to manage and see logs. 
 
 ## Configure your Catalyst Project
 
