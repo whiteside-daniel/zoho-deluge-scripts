@@ -3,16 +3,17 @@
 //When stock of a given item at warehouse ABC drops below the threshold set by ABC Restock Quantity - you'll get a notification
 //You won't get notified if a Purchase Order or Transfer order has been submitted for that item/warehouse combo in the last 4 days
 //You also need a connection called "zohoinventory" with scopes to read/write from Items, POs, Warehouses, and Transfer Orders
-//APP VARIABLES
-//APP VARIABLES
+
+//SETTING TEST MODE == TRUE WILL NOT SEND THE EMAIL AND ONLY LOG OUTPUTS OF THE FUNCTION
 testMode = false;
+//APP VARIABLES
 daysToCheck = 42;
 //6 weeks
 organizationId = organization.get("organization_id");
 connectionString = "zohoinventory";
 warehouseList = list();
 warehouseList.add({"id":"889007000002572020","name":"ABC","customFieldId":"889007000005584003","notify":"daniel@gmail.com"});
-warehouseList.add({"id":"889007000003173025","name":"DEF","customFieldId":"889007000005584033","notify":"daniel@gmail.com"});
+warehouseList.add({"id":"889007000003173025","name":"DEF","customFieldId":"889007000005584033","notify":{"daniel@gmail.com","jim@internet.com"}});
 warehouseList.add({"id":"889007000003173001","name":"GHI","customFieldId":"889007000005584021","notify":"daniel@gmail.com"});
 warehouseList.add({"id":"889007000003163922","name":"JKL","customFieldId":"889007000005584015","notify":"jim@internet.com"});
 warehouseList.add({"id":"889007000003163898","name":"MNO","customFieldId":"889007000005584009","notify":"jim@internet.com"});
@@ -28,7 +29,7 @@ whtResponse = invokeurl
 [
 	url :transferUrl
 	type :GET
-	connection:connectionString
+	connection:"zohoinventory"
 ];
 whtData = whtResponse.get("transfer_orders");
 whtList = list();
@@ -38,7 +39,7 @@ for each  wh in whtData
 	whtId = wh.get("transfer_order_id");
 	whtDate = wh.get("date").toDate();
 	whtInTransit = wh.get("is_intransit_order");
-	if(whtDate > today.subDay(daysToCheck) && whtDate <= today && whtInTransit == true)
+	if(whtDate > today.subDay(daysToCheck) && whtInTransit == true)
 	{
 		resp = zoho.inventory.getRecordsByID("transferorders",organizationId,whtId,"zohoinventory");
 		items = resp.get("transfer_order").get("line_items");
@@ -52,7 +53,7 @@ for each  wh in whtData
 	}
 }
 //PO
-poStatuses = {"issued"};
+poStatuses = {"issued","partially_received"};
 poUrl = "https://www.zohoapis.com/inventory/v1/purchaseorders?organization_id=" + organizationId;
 poResponse = invokeurl
 [
@@ -355,7 +356,7 @@ try
 				[
 					from :zoho.adminuserid
 					to :email
-					subject :"TEST - Low Stock Alert - " + today
+					subject :"Low Stock Alert - " + today
 					message :emailBody
 				]
 				info "Email was sent to: " + email;
